@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: fracciona
+      POSTGRES_PASSWORD: fracciona_pass
+      POSTGRES_DB: fracciona_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://fracciona:fracciona_pass@postgres:5432/fracciona_db
+      JWT_SECRET: "CAMBIA_ESTA_CLAVE"
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+    command: npm run dev
+
+volumes:
+  pgdata:

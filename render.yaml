@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: fracciona-backend
+    env: docker
+    plan: free
+    dockerfilePath: backend/Dockerfile
+
+databases:
+  - name: fracciona-postgres
+    plan: free
